@@ -2,10 +2,9 @@ import axios from "axios"
 import type { WishlistItem, User } from "@/types"
 
 export function getApiBaseUrl(): string {
-  if (typeof window !== "undefined") {
-    return process.env.NEXT_PUBLIC_API_URL || ""
-  }
-  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+  const url = process.env.NEXT_PUBLIC_API_URL
+  if (url && url.length > 0) return url
+  return typeof window !== "undefined" ? "" : "http://localhost:8000"
 }
 
 export function resolveImageUrl(path: string | null): string {
