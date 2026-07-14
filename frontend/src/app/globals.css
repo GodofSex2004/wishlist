@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-cyber-black text-cyber-text font-mono antialiased;
+  background-image: 
+    radial-gradient(ellipse at 20% 50%, rgba(255, 0, 68, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(179, 0, 255, 0.03) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-attachment: fixed;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-cyber-dark;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-cyber-light rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-cyber-muted;
+}
+
+@layer utilities {
+  .text-gradient-neon {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyber-neon via-cyber-purple to-cyber-cyan;
+  }
+  .glow-border {
+    box-shadow: 0 0 10px rgba(255, 0, 68, 0.15), inset 0 0 10px rgba(255, 0, 68, 0.05);
+  }
+  .glow-border-green {
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.15), inset 0 0 10px rgba(0, 255, 65, 0.05);
+  }
+  .glow-border-purple {
+    box-shadow: 0 0 10px rgba(179, 0, 255, 0.15), inset 0 0 10px rgba(179, 0, 255, 0.05);
+  }
+}
