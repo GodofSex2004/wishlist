@@ -11,7 +11,7 @@ from app.core.database import Base
 class ItemCategory(str, enum.Enum):
     TECH = "TECH"
     BOOKS = "BOOKS"
-    CLOTHES = "CLOTHES"
+    FASHION = "FASHION"
     TRAVEL = "TRAVEL"
     OTHER = "OTHER"
 

@@ -72,7 +72,7 @@ export default function Dashboard() {
         >
           <div>
             <h1 className="text-4xl sm:text-5xl font-display tracking-wider text-white">
-              WISH<span className="text-gradient-neon">LIST</span>
+              W<span className="text-cyber-ember">I</span>SHLIST
             </h1>
             <p className="text-cyber-muted text-xs mt-1 tracking-wider uppercase">
               {items.length} {items.length === 1 ? "item" : "items"} · {user.username}
@@ -83,8 +83,7 @@ export default function Dashboard() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => setShowAddModal(true)}
-              className="flex items-center gap-2 px-5 py-2.5 bg-cyber-neon text-black font-bold rounded-xl 
-                         hover:shadow-neon-lg transition-all duration-300 text-sm"
+              className="btn-ghost flex items-center gap-2 px-5 py-2.5 text-sm"
             >
               <Plus size={16} />
               <span className="hidden sm:inline">Add Item</span>
@@ -97,7 +96,7 @@ export default function Dashboard() {
             onClick={() => { setActiveTab(ItemStatus.ACTIVE); setActiveCategory(null) }}
             className={`relative px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2
               ${activeTab === ItemStatus.ACTIVE
-                ? "bg-cyber-neon text-black shadow-neon"
+                ? "bg-cyber-ember/15 text-white border border-cyber-ember/40 shadow-ember"
                 : "text-cyber-muted hover:text-white"
               }`}
           >
@@ -138,27 +137,17 @@ export default function Dashboard() {
           >
             {activeTab === ItemStatus.ACTIVE ? (
               <>
-                <div className="w-16 h-16 rounded-2xl bg-cyber-neon/10 border border-cyber-neon/20 flex items-center justify-center mb-4">
-                  <Sparkles size={28} className="text-cyber-neon/50" />
-                </div>
-                <p className="text-lg font-display tracking-wider text-white/40">
-                  НИЧЕГО НЕ ЖЕЛАЮ
-                </p>
+                <p className="text-sm text-cyber-muted/60">Nothing here.</p>
                 <button
                   onClick={() => setShowAddModal(true)}
-                  className="mt-4 text-sm text-cyber-neon hover:text-white transition-colors"
+                  className="mt-3 text-xs text-cyber-ember/70 hover:text-cyber-ember transition-colors uppercase tracking-wider"
                 >
-                  Добавить желание
+                  Create your first wish
                 </button>
               </>
             ) : (
               <>
-                <div className="w-16 h-16 rounded-2xl bg-cyber-green/10 border border-cyber-green/20 flex items-center justify-center mb-4">
-                  <Archive size={28} className="text-cyber-green/50" />
-                </div>
-                <p className="text-lg font-display tracking-wider text-white/40">
-                  ЕЩЁ НИЧЕГО НЕ ИСПОЛНИЛОСЬ
-                </p>
+                <p className="text-sm text-cyber-muted/60">Nothing here.</p>
               </>
             )}
           </motion.div>

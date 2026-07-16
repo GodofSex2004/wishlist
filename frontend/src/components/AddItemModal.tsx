@@ -269,8 +269,7 @@ export default function AddItemModal({ isOpen, onClose, onSuccess }: AddItemModa
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 bg-cyber-neon text-black font-bold rounded-xl text-sm
-                           hover:shadow-neon-lg transition-all duration-300 disabled:opacity-50"
+                className="w-full py-3 btn-ghost disabled:opacity-50"
               >
                 {loading ? "Adding..." : "ADD TO WISHLIST"}
               </button>

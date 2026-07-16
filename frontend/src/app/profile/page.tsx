@@ -97,8 +97,8 @@ export default function ProfilePage() {
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading}
-                  className="absolute -bottom-1 -right-1 w-7 h-7 rounded-xl bg-cyber-neon text-black flex items-center justify-center
-                             hover:shadow-neon transition-all disabled:opacity-50"
+                  className="absolute -bottom-1 -right-1 w-7 h-7 rounded-xl bg-cyber-ember text-white flex items-center justify-center
+                             hover:shadow-ember transition-all disabled:opacity-50"
                 >
                   <Camera size={12} />
                 </button>
@@ -160,7 +160,7 @@ export default function ProfilePage() {
                   onClick={() => setIsPrivate(!isPrivate)}
                   className={`flex items-center justify-between w-full px-3.5 py-3 rounded-xl border transition-all duration-300
                     ${isPrivate
-                      ? "bg-cyber-neon/5 border-cyber-neon/30"
+                      ? "bg-cyber-ember/5 border-cyber-ember/30"
                       : "bg-black/30 backdrop-blur-sm border-white/[0.08] hover:border-white/[0.12]"
                     }`}
                 >
@@ -179,7 +179,7 @@ export default function ProfilePage() {
                       </p>
                     </div>
                   </div>
-                  <div className={`w-9 h-5 rounded-full transition-colors ${isPrivate ? "bg-cyber-neon" : "bg-white/10"}`}>
+                  <div className={`w-9 h-5 rounded-full transition-colors ${isPrivate ? "bg-cyber-ember" : "bg-white/10"}`}>
                     <div className={`w-4 h-4 rounded-full bg-white mt-0.5 transition-transform ${isPrivate ? "translate-x-4" : "translate-x-0.5"}`} />
                   </div>
                 </button>
@@ -192,9 +192,7 @@ export default function ProfilePage() {
             whileTap={{ scale: 0.99 }}
             onClick={handleSave}
             disabled={saving}
-            className="w-full py-3 bg-cyber-neon text-black font-bold rounded-xl text-sm
-                       hover:shadow-neon-lg transition-all duration-300 flex items-center justify-center gap-2
-                       disabled:opacity-50"
+            className="w-full py-3 btn-ghost flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {saving ? "Saving..." : saved ? (
               <>

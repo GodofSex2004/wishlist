@@ -1,7 +1,7 @@
 export enum ItemCategory {
   TECH = "TECH",
   BOOKS = "BOOKS",
-  CLOTHES = "CLOTHES",
+  FASHION = "FASHION",
   TRAVEL = "TRAVEL",
   OTHER = "OTHER",
 }
@@ -46,17 +46,17 @@ export interface PriceHistory {
 }
 
 export const categoryLabels: Record<ItemCategory, string> = {
-  [ItemCategory.TECH]: "Техника",
-  [ItemCategory.BOOKS]: "Книги",
-  [ItemCategory.CLOTHES]: "Одежда",
-  [ItemCategory.TRAVEL]: "Поездки",
-  [ItemCategory.OTHER]: "Прочее",
+  [ItemCategory.TECH]: "TECH",
+  [ItemCategory.BOOKS]: "BOOKS",
+  [ItemCategory.FASHION]: "FASHION",
+  [ItemCategory.TRAVEL]: "TRAVEL",
+  [ItemCategory.OTHER]: "OTHER",
 }
 
 export const categoryColors: Record<ItemCategory, string> = {
-  [ItemCategory.TECH]: "bg-cyber-neon text-black border-cyber-neon",
+  [ItemCategory.TECH]: "bg-cyber-ember text-white border-cyber-ember",
   [ItemCategory.BOOKS]: "bg-cyber-cyan text-black border-cyber-cyan",
-  [ItemCategory.CLOTHES]: "bg-cyber-purple text-white border-cyber-purple",
+  [ItemCategory.FASHION]: "bg-cyber-purple text-white border-cyber-purple",
   [ItemCategory.TRAVEL]: "bg-cyber-green text-black border-cyber-green",
   [ItemCategory.OTHER]: "bg-cyber-muted text-white border-cyber-muted",
 }

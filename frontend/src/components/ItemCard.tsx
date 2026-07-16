@@ -63,7 +63,7 @@ export default function ItemCard({ item, index, onDelete, onUpdate, onComplete }
   }
 
   const handleCategoryCycle = async () => {
-    const order = ["TECH", "BOOKS", "CLOTHES", "TRAVEL", "OTHER"] as const
+    const order = ["TECH", "BOOKS", "FASHION", "TRAVEL", "OTHER"] as const
     const idx = order.indexOf(item.category as any)
     const nextCat = order[(idx + 1) % order.length]
     try {

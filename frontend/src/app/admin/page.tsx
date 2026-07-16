@@ -20,6 +20,7 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<"users" | "items">("users")
   const [search, setSearch] = useState("")
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -33,11 +34,14 @@ export default function AdminPage() {
 
   const loadData = async () => {
     setLoading(true)
+    setError("")
     try {
       const [u, i] = await Promise.all([adminGetUsers(), adminGetItems()])
       setUsers(u)
       setItems(i)
-    } catch {}
+    } catch (err: any) {
+      setError(err?.response?.data?.detail || err?.message || "Failed to load data")
+    }
     setLoading(false)
   }
 
@@ -124,6 +128,12 @@ export default function AdminPage() {
                        placeholder:text-cyber-muted/40 focus:outline-none focus:border-cyber-neon/40 transition-colors"
           />
         </div>
+
+        {error && (
+          <div className="p-3 bg-cyber-ember/10 border border-cyber-ember/30 rounded-xl mb-4">
+            <p className="text-xs text-cyber-ember">{error}</p>
+          </div>
+        )}
 
         {loading ? (
           <div className="space-y-2">

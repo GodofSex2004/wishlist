@@ -45,7 +45,7 @@ export default function TgAppPage() {
       <div className="sticky top-0 z-50 bg-cyber-black/70 backdrop-blur-2xl border-b border-white/[0.06] px-4 py-3">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-display tracking-wider text-white">
-            WISH<span className="text-cyber-neon">LIST</span>
+            W<span className="text-cyber-ember">I</span>SHLIST
           </h1>
           <span className="text-[10px] text-cyber-muted">@{user.username}</span>
         </div>

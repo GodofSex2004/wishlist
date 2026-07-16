@@ -39,7 +39,7 @@ export default function Navbar({ user }: NavbarProps) {
           animate={{ opacity: 1 }}
           className="text-2xl font-display tracking-[0.2em] text-white"
         >
-          WISH<span className="text-cyber-neon">LIST</span>
+          W<span className="text-cyber-ember">I</span>SHLIST
         </motion.a>
 
         <div className="flex items-center gap-3">

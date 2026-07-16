@@ -42,7 +42,7 @@ export default function LoginPage() {
       >
         <div className="text-center mb-8">
           <h1 className="text-5xl font-display tracking-[0.15em] text-white">
-            WISH<span className="text-cyber-neon">LIST</span>
+            W<span className="text-cyber-ember">I</span>SHLIST
           </h1>
           <p className="text-cyber-muted text-xs mt-2 tracking-wider uppercase">Personal wishlist tracker</p>
         </div>
@@ -98,9 +98,7 @@ export default function LoginPage() {
               whileTap={{ scale: 0.99 }}
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-cyber-neon text-black font-bold rounded-xl text-sm
-                         hover:shadow-neon-lg transition-all duration-300 flex items-center justify-center gap-2
-                         disabled:opacity-50"
+              className="w-full py-3 btn-ghost flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {loading ? "Signing in..." : (
                 <>
@@ -114,7 +112,7 @@ export default function LoginPage() {
 
         <p className="text-center text-xs text-cyber-muted mt-6">
           No account?{" "}
-          <a href="/auth/register" className="text-cyber-neon hover:text-white transition-colors">
+          <a href="/auth/register" className="text-cyber-ember hover:text-white transition-colors">
             Register
           </a>
         </p>
