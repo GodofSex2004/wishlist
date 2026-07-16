@@ -46,7 +46,7 @@ def main_menu() -> InlineKeyboardMarkup:
 def help_text() -> str:
     return (
         "🔹 *How it works*\n\n"
-        "1. Add items in the web app\n"
+        "1. Add items to your wishlist\n"
         "2. Set your target price\n"
         "3. We check prices daily\n"
         "4. Get alert when price drops 🎯\n\n"
@@ -83,7 +83,7 @@ async def start_handler(message: Message):
         return
 
     await message.answer(
-        "👟 *DROPWATCH*\n\n"
+        "🎯 *WISHLIST*\n\n"
         "Tap the button below to open the app 👇",
         parse_mode="Markdown",
         reply_markup=main_menu(),
@@ -115,8 +115,8 @@ async def help_command_handler(message: Message):
 @_router.message()
 async def any_message(message: Message):
     await message.answer(
-        "👟 *DROPWATCH — Wishlist Tracker*\n\n"
-        "Track prices on sneakers, clothes & gadgets.\n"
+        "🎯 *WISHLIST*\n\n"
+        "Track prices on your wishlist items.\n"
         "Get alerts when prices drop to your target.\n\n"
         "To link your account:\n"
         "1. Open the app → Profile\n"

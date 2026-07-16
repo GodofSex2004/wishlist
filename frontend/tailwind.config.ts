@@ -18,6 +18,7 @@ const config: Config = {
           wine: "#6D1026",
           crimson: "#7D112B",
           ember: "#8A0E28",
+          neon: "#BF1030",
           green: "#00ff41",
           purple: "#b300ff",
           cyan: "#00f0ff",

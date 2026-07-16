@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, Upload, Image as ImageIcon } from "lucide-react"
-import { createItem } from "@/lib/api"
+import { createItem, extractApiError } from "@/lib/api"
 import { ItemCategory, categoryLabels } from "@/types"
 
 interface AddItemModalProps {
@@ -84,7 +84,7 @@ export default function AddItemModal({ isOpen, onClose, onSuccess }: AddItemModa
       resetForm()
       onSuccess()
     } catch (err: any) {
-      setError(err?.response?.data?.detail || "Failed to create item")
+      setError(extractApiError(err))
     } finally {
       setLoading(false)
     }

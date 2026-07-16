@@ -7,7 +7,7 @@ import {
   Users, Trash2, Shield, Package, ArrowLeft,
   Search
 } from "lucide-react"
-import { getMe, adminGetUsers, adminDeleteUser, adminMakeAdmin, adminGetItems, adminDeleteItem, resolveImageUrl } from "@/lib/api"
+import { getMe, adminGetUsers, adminDeleteUser, adminMakeAdmin, adminGetItems, adminDeleteItem, resolveImageUrl, extractApiError } from "@/lib/api"
 import type { User, WishlistItem } from "@/types"
 import { categoryLabels } from "@/types"
 import Navbar from "@/components/Navbar"
@@ -40,7 +40,7 @@ export default function AdminPage() {
       setUsers(u)
       setItems(i)
     } catch (err: any) {
-      setError(err?.response?.data?.detail || err?.message || "Failed to load data")
+      setError(extractApiError(err))
     }
     setLoading(false)
   }
@@ -105,14 +105,14 @@ export default function AdminPage() {
           <button
             onClick={() => setActiveTab("users")}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-2
-              ${activeTab === "users" ? "bg-cyber-neon text-black" : "text-cyber-muted hover:text-white"}`}
+              ${activeTab === "users" ? "bg-cyber-ember text-white" : "text-cyber-muted hover:text-white"}`}
           >
             <Users size={13} /> Users
           </button>
           <button
             onClick={() => setActiveTab("items")}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-2
-              ${activeTab === "items" ? "bg-cyber-neon text-black" : "text-cyber-muted hover:text-white"}`}
+              ${activeTab === "items" ? "bg-cyber-ember text-white" : "text-cyber-muted hover:text-white"}`}
           >
             <Package size={13} /> Items
           </button>

@@ -1,6 +1,14 @@
 import axios from "axios"
 import type { WishlistItem, User } from "@/types"
 
+export function extractApiError(err: any): string {
+  const detail = err?.response?.data?.detail
+  if (!detail) return err?.message || "Something went wrong"
+  if (typeof detail === "string") return detail
+  if (Array.isArray(detail)) return detail.map((d: any) => d.msg).join("; ")
+  return JSON.stringify(detail)
+}
+
 export function getApiBaseUrl(): string {
   const url = process.env.NEXT_PUBLIC_API_URL
   if (url && url.length > 0) return url

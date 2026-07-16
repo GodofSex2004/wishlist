@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { register } from "@/lib/api"
+import { register, extractApiError } from "@/lib/api"
 import { UserPlus } from "lucide-react"
 
 export default function RegisterPage() {
@@ -26,7 +26,7 @@ export default function RegisterPage() {
       await register(username, email, password)
       router.push("/auth/login")
     } catch (err: any) {
-      setError(err?.response?.data?.detail || "Registration failed")
+      setError(extractApiError(err))
     } finally {
       setLoading(false)
     }
