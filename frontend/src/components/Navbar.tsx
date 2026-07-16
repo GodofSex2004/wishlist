@@ -47,8 +47,8 @@ export default function Navbar({ user }: NavbarProps) {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => router.push("/profile")}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-cyber-dark/60 backdrop-blur-xl border border-white/[0.06] 
-                       hover:border-white/[0.12] hover:bg-cyber-dark/80 transition-all duration-300 text-sm"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-cyber-dark border border-white/[0.10] 
+                       hover:border-white/[0.20] transition-all duration-300 text-sm"
           >
             {user.avatar_url ? (
               <img src={user.avatar_url} alt="" className="w-6 h-6 rounded-full object-cover" />
@@ -66,8 +66,8 @@ export default function Navbar({ user }: NavbarProps) {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setShowProfile(!showProfile)}
-            className="p-2 rounded-xl bg-cyber-dark/60 backdrop-blur-xl border border-white/[0.06] 
-                       hover:border-white/[0.12] transition-all duration-300"
+            className="p-2 rounded-xl bg-cyber-dark border border-white/[0.10] 
+                       hover:border-white/[0.20] transition-all duration-300"
           >
             <div className="w-1.5 h-1.5 rounded-full bg-cyber-muted" />
           </motion.button>
@@ -81,7 +81,7 @@ export default function Navbar({ user }: NavbarProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.96 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-4 top-16 mt-2 w-72 bg-cyber-dark/80 backdrop-blur-2xl border border-white/[0.08] rounded-2xl p-5 shadow-glass"
+            className="absolute right-4 top-16 mt-2 w-72 bg-cyber-dark border border-white/[0.10] rounded-2xl p-5 shadow-glass"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">

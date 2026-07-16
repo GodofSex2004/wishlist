@@ -4,7 +4,7 @@ import { useState, useRef, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, Upload, Image as ImageIcon } from "lucide-react"
 import { createItem } from "@/lib/api"
-import { ItemCategory, categoryLabels, categoryColors } from "@/types"
+import { ItemCategory, categoryLabels } from "@/types"
 
 interface AddItemModalProps {
   isOpen: boolean
@@ -227,16 +227,22 @@ export default function AddItemModal({ isOpen, onClose, onSuccess }: AddItemModa
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   {Object.values(ItemCategory).map((cat) => {
-                    const catColor = categoryColors[cat]
+                    const activeStyles: Record<string, string> = {
+                      TECH: "bg-cyber-ember/10 border-cyber-ember/40 text-cyber-ember",
+                      BOOKS: "bg-cyber-cyan/10 border-cyber-cyan/40 text-cyber-cyan",
+                      FASHION: "bg-cyber-purple/10 border-cyber-purple/40 text-cyber-purple",
+                      TRAVEL: "bg-cyber-green/10 border-cyber-green/40 text-cyber-green",
+                      OTHER: "bg-white/5 border-white/20 text-cyber-muted",
+                    }
                     return (
                       <button
                         key={cat}
                         type="button"
                         onClick={() => setCategory(cat)}
-                        className={`px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 border
+                        className={`px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 border tracking-wider
                           ${category === cat
-                            ? catColor
-                            : "bg-black/30 backdrop-blur-sm text-cyber-muted border-white/[0.06] hover:border-white/[0.12]"
+                            ? activeStyles[cat]
+                            : "bg-black/30 backdrop-blur-sm text-cyber-muted/60 border-white/[0.06] hover:border-white/[0.15] hover:text-cyber-text"
                           }`}
                       >
                         {categoryLabels[cat]}
