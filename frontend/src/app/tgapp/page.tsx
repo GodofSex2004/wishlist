@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { getMe, getItems } from "@/lib/api"
-import { WishlistItem, ItemCategory } from "@/types"
+import { WishlistItem, ItemCategory, ItemStatus } from "@/types"
 import FilterBar from "@/components/FilterBar"
 import ItemCard from "@/components/ItemCard"
 import { ShoppingBag, ArrowLeft } from "lucide-react"
@@ -35,7 +35,7 @@ export default function TgAppPage() {
   useEffect(() => {
     if (!user) return
     setLoading(true)
-    getItems(activeCategory || undefined).then(setItems).finally(() => setLoading(false))
+    getItems(activeCategory || undefined, ItemStatus.ACTIVE).then(setItems).finally(() => setLoading(false))
   }, [user, activeCategory])
 
   if (!user) return null
@@ -45,7 +45,7 @@ export default function TgAppPage() {
       <div className="sticky top-0 z-50 bg-cyber-black/90 backdrop-blur-xl border-b border-cyber-light/30 px-4 py-3">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-display tracking-wider text-white">
-            DROP<span className="text-cyber-neon">WATCH</span>
+            WISH<span className="text-cyber-neon">LIST</span>
           </h1>
           <span className="text-[10px] text-cyber-muted">@{user.username}</span>
         </div>

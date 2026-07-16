@@ -9,6 +9,7 @@ import {
 } from "lucide-react"
 import { getMe, adminGetUsers, adminDeleteUser, adminMakeAdmin, adminGetItems, adminDeleteItem, resolveImageUrl } from "@/lib/api"
 import type { User, WishlistItem } from "@/types"
+import { categoryLabels } from "@/types"
 import Navbar from "@/components/Navbar"
 
 export default function AdminPage() {
@@ -64,7 +65,7 @@ export default function AdminPage() {
 
   const filteredItems = items.filter(
     (i) => i.title.toLowerCase().includes(search.toLowerCase()) ||
-           i.brand.toLowerCase().includes(search.toLowerCase())
+           categoryLabels[i.category]?.toLowerCase().includes(search.toLowerCase())
   )
 
   const getUserName = (userId: number) => users.find((u) => u.id === userId)?.username || `#${userId}`
@@ -208,7 +209,7 @@ export default function AdminPage() {
                   <div className="min-w-0">
                     <p className="text-sm font-bold text-white truncate">{item.title}</p>
                     <p className="text-[10px] text-cyber-muted">
-                      {item.brand} · by {getUserName(item.user_id)} · ${item.target_price}
+                      {categoryLabels[item.category]} · by {getUserName(item.user_id)} · ${item.target_price}
                     </p>
                   </div>
                 </div>

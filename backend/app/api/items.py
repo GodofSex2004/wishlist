@@ -1,5 +1,6 @@
 import os
 import uuid
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, status, Query
@@ -9,7 +10,7 @@ from sqlalchemy import select, delete
 from app.core.config import settings
 from app.core.database import get_db
 from app.core.security import get_current_user
-from app.models.models import User, WishlistItem, ItemCategory
+from app.models.models import User, WishlistItem, ItemCategory, ItemStatus
 from app.schemas.schemas import WishlistItemOut, WishlistItemUpdate
 
 router = APIRouter(prefix="/api/items", tags=["items"])
@@ -33,12 +34,15 @@ def _save_upload(file: UploadFile) -> Optional[str]:
 @router.get("", response_model=List[WishlistItemOut])
 async def get_items(
     category: Optional[ItemCategory] = Query(None),
+    status: Optional[ItemStatus] = Query(None),
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
     stmt = select(WishlistItem).where(WishlistItem.user_id == current_user.id)
     if category:
         stmt = stmt.where(WishlistItem.category == category)
+    if status:
+        stmt = stmt.where(WishlistItem.status == status)
     stmt = stmt.order_by(WishlistItem.created_at.desc())
     result = await db.execute(stmt)
     items = result.scalars().all()
@@ -51,7 +55,7 @@ async def create_item(
     brand: str = Form(default=""),
     shop_url: str = Form(default=""),
     target_price: float = Form(default=0.0),
-    category: ItemCategory = Form(default=ItemCategory.SAVE_UP),
+    category: ItemCategory = Form(default=ItemCategory.OTHER),
     comment: str = Form(default=""),
     image: Optional[UploadFile] = File(None),
     current_user: User = Depends(get_current_user),
@@ -107,6 +111,27 @@ async def update_item(
     update_data = payload.model_dump(exclude_unset=True)
     for field, value in update_data.items():
         setattr(item, field, value)
+
+    await db.flush()
+    await db.refresh(item)
+    return item
+
+
+@router.patch("/{item_id}/complete", response_model=WishlistItemOut)
+async def complete_item(
+    item_id: int,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    result = await db.execute(
+        select(WishlistItem).where(WishlistItem.id == item_id, WishlistItem.user_id == current_user.id)
+    )
+    item = result.scalar_one_or_none()
+    if not item:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found")
+
+    item.status = ItemStatus.COMPLETED
+    item.completed_at = datetime.now(timezone.utc)
 
     await db.flush()
     await db.refresh(item)

@@ -4,7 +4,7 @@ import { useState, useRef, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, Upload, Image as ImageIcon } from "lucide-react"
 import { createItem } from "@/lib/api"
-import { ItemCategory, categoryLabels } from "@/types"
+import { ItemCategory, categoryLabels, categoryColors } from "@/types"
 
 interface AddItemModalProps {
   isOpen: boolean
@@ -17,7 +17,7 @@ export default function AddItemModal({ isOpen, onClose, onSuccess }: AddItemModa
   const [brand, setBrand] = useState("")
   const [shopUrl, setShopUrl] = useState("")
   const [targetPrice, setTargetPrice] = useState("")
-  const [category, setCategory] = useState<ItemCategory>(ItemCategory.SAVE_UP)
+  const [category, setCategory] = useState<ItemCategory>(ItemCategory.OTHER)
   const [comment, setComment] = useState("")
   const [image, setImage] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
@@ -31,7 +31,7 @@ export default function AddItemModal({ isOpen, onClose, onSuccess }: AddItemModa
     setBrand("")
     setShopUrl("")
     setTargetPrice("")
-    setCategory(ItemCategory.SAVE_UP)
+    setCategory(ItemCategory.OTHER)
     setComment("")
     setImage(null)
     setPreview(null)
@@ -175,7 +175,7 @@ export default function AddItemModal({ isOpen, onClose, onSuccess }: AddItemModa
                 <input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="e.g. Nike SB Dunk Low"
+                  placeholder="e.g. MacBook Pro"
                   className="w-full px-3 py-2 bg-cyber-black border border-cyber-light rounded-lg text-sm text-white
                              placeholder:text-cyber-muted/50 focus:outline-none focus:border-cyber-neon/50 transition-colors"
                 />
@@ -190,7 +190,7 @@ export default function AddItemModal({ isOpen, onClose, onSuccess }: AddItemModa
                   <input
                     value={brand}
                     onChange={(e) => setBrand(e.target.value)}
-                    placeholder="Nike"
+                    placeholder="Apple"
                     className="w-full px-3 py-2 bg-cyber-black border border-cyber-light rounded-lg text-sm text-white
                                placeholder:text-cyber-muted/50 focus:outline-none focus:border-cyber-neon/50 transition-colors"
                   />
@@ -219,7 +219,7 @@ export default function AddItemModal({ isOpen, onClose, onSuccess }: AddItemModa
                 <input
                   value={shopUrl}
                   onChange={(e) => setShopUrl(e.target.value)}
-                  placeholder="https://stockx.com/..."
+                  placeholder="https://..."
                   className="w-full px-3 py-2 bg-cyber-black border border-cyber-light rounded-lg text-sm text-white
                              placeholder:text-cyber-muted/50 focus:outline-none focus:border-cyber-neon/50 transition-colors"
                 />
@@ -231,24 +231,23 @@ export default function AddItemModal({ isOpen, onClose, onSuccess }: AddItemModa
                   Category
                 </label>
                 <div className="grid grid-cols-3 gap-2">
-                  {Object.values(ItemCategory).map((cat) => (
-                    <button
-                      key={cat}
-                      type="button"
-                      onClick={() => setCategory(cat)}
-                      className={`px-3 py-2 rounded-lg text-xs font-bold transition-all duration-300 border
-                        ${category === cat
-                          ? cat === ItemCategory.BUY_NOW
-                            ? "bg-cyber-neon text-black border-cyber-neon"
-                            : cat === ItemCategory.SAVE_UP
-                              ? "bg-cyber-green text-black border-cyber-green"
-                              : "bg-cyber-purple text-white border-cyber-purple"
-                          : "bg-cyber-black text-cyber-muted border-cyber-light hover:border-cyber-light/50"
-                        }`}
-                    >
-                      {categoryLabels[cat]}
-                    </button>
-                  ))}
+                  {Object.values(ItemCategory).map((cat) => {
+                    const catColor = categoryColors[cat]
+                    return (
+                      <button
+                        key={cat}
+                        type="button"
+                        onClick={() => setCategory(cat)}
+                        className={`px-3 py-2 rounded-lg text-xs font-bold transition-all duration-300 border
+                          ${category === cat
+                            ? catColor
+                            : "bg-cyber-black text-cyber-muted border-cyber-light hover:border-cyber-light/50"
+                          }`}
+                      >
+                        {categoryLabels[cat]}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 
@@ -260,7 +259,7 @@ export default function AddItemModal({ isOpen, onClose, onSuccess }: AddItemModa
                 <textarea
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  placeholder="Size, colorway, notes..."
+                  placeholder="Notes, details..."
                   rows={2}
                   className="w-full px-3 py-2 bg-cyber-black border border-cyber-light rounded-lg text-sm text-white
                              placeholder:text-cyber-muted/50 focus:outline-none focus:border-cyber-neon/50 transition-colors resize-none"

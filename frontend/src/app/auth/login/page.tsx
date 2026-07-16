@@ -42,9 +42,9 @@ export default function LoginPage() {
       >
         <div className="text-center mb-8">
           <h1 className="text-5xl font-display tracking-[0.15em] text-white">
-            DROP<span className="text-cyber-neon">WATCH</span>
+            WISH<span className="text-cyber-neon">LIST</span>
           </h1>
-          <p className="text-cyber-muted text-sm mt-2">Streetwear wishlist tracker</p>
+          <p className="text-cyber-muted text-sm mt-2">Personal wishlist tracker</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">

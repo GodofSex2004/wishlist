@@ -53,9 +53,16 @@ export async function getMe(): Promise<User> {
   return data
 }
 
-export async function getItems(category?: string): Promise<WishlistItem[]> {
-  const params = category ? { category } : {}
+export async function getItems(category?: string, status?: string): Promise<WishlistItem[]> {
+  const params: Record<string, string> = {}
+  if (category) params.category = category
+  if (status) params.status = status
   const { data } = await api.get("/api/items", { params })
+  return data
+}
+
+export async function completeItem(id: number): Promise<WishlistItem> {
+  const { data } = await api.patch(`/api/items/${id}/complete`)
   return data
 }
 

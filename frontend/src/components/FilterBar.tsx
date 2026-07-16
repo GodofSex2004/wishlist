@@ -9,11 +9,21 @@ interface FilterBarProps {
 }
 
 const categories = [
-  { value: null, label: "All", color: "border-cyber-text" },
-  { value: ItemCategory.BUY_NOW, label: categoryLabels[ItemCategory.BUY_NOW], color: "border-cyber-neon" },
-  { value: ItemCategory.SAVE_UP, label: categoryLabels[ItemCategory.SAVE_UP], color: "border-cyber-green" },
-  { value: ItemCategory.FUTURE_DROP, label: categoryLabels[ItemCategory.FUTURE_DROP], color: "border-cyber-purple" },
+  { value: null, label: "Все" },
+  { value: ItemCategory.TECH, label: categoryLabels[ItemCategory.TECH] },
+  { value: ItemCategory.BOOKS, label: categoryLabels[ItemCategory.BOOKS] },
+  { value: ItemCategory.CLOTHES, label: categoryLabels[ItemCategory.CLOTHES] },
+  { value: ItemCategory.TRAVEL, label: categoryLabels[ItemCategory.TRAVEL] },
+  { value: ItemCategory.OTHER, label: categoryLabels[ItemCategory.OTHER] },
 ]
+
+const categoryTabColors: Record<string, string> = {
+  [ItemCategory.TECH]: "bg-cyber-neon",
+  [ItemCategory.BOOKS]: "bg-cyber-cyan",
+  [ItemCategory.CLOTHES]: "bg-cyber-purple",
+  [ItemCategory.TRAVEL]: "bg-cyber-green",
+  [ItemCategory.OTHER]: "bg-cyber-muted",
+}
 
 export default function FilterBar({ activeCategory, onCategoryChange }: FilterBarProps) {
   return (
@@ -21,32 +31,28 @@ export default function FilterBar({ activeCategory, onCategoryChange }: FilterBa
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 }}
-      className="flex gap-2 overflow-x-auto pb-2 scrollbar-none"
+      className="flex gap-1 overflow-x-auto pb-1 scrollbar-none border-b border-cyber-light/30"
     >
-      {categories.map((cat) => (
-        <motion.button
-          key={cat.label}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => onCategoryChange(cat.value)}
-          className={`relative px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap transition-all duration-300
-            ${
-              activeCategory === cat.value
-                ? `bg-cyber-gray border ${cat.color} text-white`
-                : "bg-cyber-dark border border-cyber-light text-cyber-muted hover:text-white hover:border-cyber-light"
-            }`}
-        >
-          {activeCategory === cat.value && (
-            <motion.div
-              layoutId="activeFilter"
-              className="absolute inset-0 rounded-lg border-2"
-              style={{ borderColor: "inherit" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            />
-          )}
-          <span className="relative z-10">{cat.label}</span>
-        </motion.button>
-      ))}
+      {categories.map((cat) => {
+        const isActive = activeCategory === cat.value
+        return (
+          <button
+            key={cat.label}
+            onClick={() => onCategoryChange(cat.value)}
+            className={`relative px-4 py-2 text-sm font-bold whitespace-nowrap transition-colors
+              ${isActive ? "text-white" : "text-cyber-muted hover:text-white"}`}
+          >
+            {cat.label}
+            {isActive && (
+              <motion.div
+                layoutId="activeCategoryTab"
+                className={`absolute bottom-0 left-0 right-0 h-0.5 ${cat.value ? categoryTabColors[cat.value] : "bg-white"}`}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              />
+            )}
+          </button>
+        )
+      })}
     </motion.div>
   )
 }

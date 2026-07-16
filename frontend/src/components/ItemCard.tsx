@@ -9,9 +9,10 @@ import {
   ExternalLink,
   BarChart3,
   X,
+  Check,
 } from "lucide-react"
-import { WishlistItem, categoryLabels } from "@/types"
-import { deleteItem, updateItem, resolveImageUrl } from "@/lib/api"
+import { WishlistItem, ItemStatus, categoryLabels, categoryColors } from "@/types"
+import { deleteItem, updateItem, completeItem, resolveImageUrl } from "@/lib/api"
 import PriceChart from "./PriceChart"
 
 interface ItemCardProps {
@@ -19,19 +20,25 @@ interface ItemCardProps {
   index: number
   onDelete: (id: number) => void
   onUpdate: (id: number, data: Partial<WishlistItem>) => void
+  onComplete?: (id: number) => void
 }
 
 const categoryBorder: Record<string, string> = {
-  BUY_NOW: "hover:shadow-neon hover:border-cyber-neon",
-  SAVE_UP: "hover:shadow-green hover:border-cyber-green",
-  FUTURE_DROP: "hover:shadow-purple hover:border-cyber-purple",
+  TECH: "hover:shadow-neon hover:border-cyber-neon",
+  BOOKS: "hover:border-cyber-cyan",
+  CLOTHES: "hover:shadow-purple hover:border-cyber-purple",
+  TRAVEL: "hover:shadow-green hover:border-cyber-green",
+  OTHER: "hover:border-cyber-muted",
 }
 
-export default function ItemCard({ item, index, onDelete, onUpdate }: ItemCardProps) {
+export default function ItemCard({ item, index, onDelete, onUpdate, onComplete }: ItemCardProps) {
   const [showComment, setShowComment] = useState(false)
   const [showChart, setShowChart] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [imgError, setImgError] = useState(false)
+  const [completing, setCompleting] = useState(false)
+
+  const isCompleted = item.status === ItemStatus.COMPLETED
 
   const formatPrice = (price: number | null) => {
     if (price === null || price === undefined) return "—"
@@ -53,8 +60,19 @@ export default function ItemCard({ item, index, onDelete, onUpdate }: ItemCardPr
     }
   }
 
+  const handleComplete = async () => {
+    setCompleting(true)
+    try {
+      await completeItem(item.id)
+      onComplete?.(item.id)
+    } catch {
+      setCompleting(false)
+    }
+  }
+
+
   const handleCategoryCycle = async () => {
-    const order = ["BUY_NOW", "SAVE_UP", "FUTURE_DROP"] as const
+    const order = ["TECH", "BOOKS", "CLOTHES", "TRAVEL", "OTHER"] as const
     const idx = order.indexOf(item.category as any)
     const nextCat = order[(idx + 1) % order.length]
     try {
@@ -70,15 +88,17 @@ export default function ItemCard({ item, index, onDelete, onUpdate }: ItemCardPr
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: index * 0.05 }}
         layout
-        className={`group relative bg-cyber-dark rounded-xl border border-cyber-light overflow-hidden 
-                    transition-all duration-500 ${categoryBorder[item.category] || "hover:border-cyber-light"}`}
+        className={`group relative bg-cyber-dark rounded-xl border overflow-hidden 
+                    transition-all duration-500 
+                    ${isCompleted ? "border-cyber-green/30 opacity-70 hover:opacity-90" : "border-cyber-light"}
+                    ${!isCompleted ? (categoryBorder[item.category] || "hover:border-cyber-light") : ""}`}
       >
         <div className="aspect-[4/5] overflow-hidden bg-cyber-black relative">
           {item.image_url && !imgError ? (
             <img
               src={resolveImageUrl(item.image_url)}
               alt={item.title}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              className={`w-full h-full object-cover transition-transform duration-700 ${isCompleted ? "grayscale" : "group-hover:scale-110"}`}
               onError={() => setImgError(true)}
             />
           ) : (
@@ -90,43 +110,57 @@ export default function ItemCard({ item, index, onDelete, onUpdate }: ItemCardPr
             </div>
           )}
 
+          {isCompleted && (
+            <div className="absolute inset-0 bg-cyber-green/10 flex items-center justify-center">
+              <div className="bg-cyber-green text-black text-xs font-bold px-3 py-1 rounded-full rotate-[-15deg] shadow-lg">
+                Выполнено ✓
+              </div>
+            </div>
+          )}
+
           <div className="absolute inset-0 bg-gradient-to-t from-cyber-dark via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-          <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <button
-              onClick={handleCategoryCycle}
-              className="p-1.5 rounded-lg bg-cyber-black/80 border border-cyber-light text-cyber-muted 
-                         hover:text-white hover:border-cyber-neon transition-all text-xs"
-              title="Change category"
-            >
-              <Tag size={12} />
-            </button>
-            <button
-              onClick={() => setShowChart(!showChart)}
-              className="p-1.5 rounded-lg bg-cyber-black/80 border border-cyber-light text-cyber-muted 
-                         hover:text-white hover:border-cyber-cyan transition-all text-xs"
-              title="Price history"
-            >
-              <BarChart3 size={12} />
-            </button>
-            <button
-              onClick={handleDelete}
-              disabled={deleting}
-              className="p-1.5 rounded-lg bg-cyber-black/80 border border-cyber-light text-cyber-muted 
-                         hover:text-cyber-neon hover:border-cyber-neon transition-all text-xs disabled:opacity-50"
-              title="Delete item"
-            >
-              <Trash2 size={12} />
-            </button>
-          </div>
+          {!isCompleted && (
+            <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <button
+                onClick={handleComplete}
+                disabled={completing}
+                className="p-1.5 rounded-lg bg-cyber-green/90 border border-cyber-green text-black 
+                           hover:bg-cyber-green transition-all text-xs disabled:opacity-50"
+                title="Mark as completed"
+              >
+                <Check size={12} />
+              </button>
+              <button
+                onClick={handleCategoryCycle}
+                className="p-1.5 rounded-lg bg-cyber-black/80 border border-cyber-light text-cyber-muted 
+                           hover:text-white hover:border-cyber-neon transition-all text-xs"
+                title="Change category"
+              >
+                <Tag size={12} />
+              </button>
+              <button
+                onClick={() => setShowChart(!showChart)}
+                className="p-1.5 rounded-lg bg-cyber-black/80 border border-cyber-light text-cyber-muted 
+                           hover:text-white hover:border-cyber-cyan transition-all text-xs"
+                title="Price history"
+              >
+                <BarChart3 size={12} />
+              </button>
+              <button
+                onClick={handleDelete}
+                disabled={deleting}
+                className="p-1.5 rounded-lg bg-cyber-black/80 border border-cyber-light text-cyber-muted 
+                           hover:text-cyber-neon hover:border-cyber-neon transition-all text-xs disabled:opacity-50"
+                title="Delete item"
+              >
+                <Trash2 size={12} />
+              </button>
+            </div>
+          )}
 
           <div className="absolute bottom-2 left-2">
-            <span
-              className={`text-[10px] px-2 py-0.5 rounded-full font-bold tracking-wider uppercase
-                ${item.category === "BUY_NOW" ? "bg-cyber-neon text-black" : ""}
-                ${item.category === "SAVE_UP" ? "bg-cyber-green text-black" : ""}
-                ${item.category === "FUTURE_DROP" ? "bg-cyber-purple text-white" : ""}`}
-            >
+            <span className="text-[10px] px-2 py-0.5 rounded-full font-bold tracking-wider uppercase bg-cyber-black/80 text-cyber-muted border border-cyber-light">
               {categoryLabels[item.category]}
             </span>
           </div>
@@ -139,23 +173,27 @@ export default function ItemCard({ item, index, onDelete, onUpdate }: ItemCardPr
                 {item.brand}
               </p>
             )}
-            <h3 className="font-bold text-sm text-white truncate">{item.title}</h3>
+            <h3 className={`font-bold text-sm truncate ${isCompleted ? "text-cyber-muted line-through" : "text-white"}`}>
+              {item.title}
+            </h3>
           </div>
 
           <div className="flex items-center justify-between text-xs">
             <div className="space-y-0.5">
               <p className="text-cyber-muted text-[10px]">Target</p>
-              <p className="text-white font-bold">{formatPrice(item.target_price)}</p>
+              <p className={`font-bold ${isCompleted ? "text-cyber-muted" : "text-white"}`}>{formatPrice(item.target_price)}</p>
             </div>
-            <div className="text-right space-y-0.5">
-              <p className="text-cyber-muted text-[10px]">Current</p>
-              <p className={`font-bold ${item.current_price && item.target_price && item.current_price <= item.target_price ? "text-cyber-green" : "text-cyber-text"}`}>
-                {formatPrice(item.current_price)}
-              </p>
-            </div>
+            {!isCompleted && (
+              <div className="text-right space-y-0.5">
+                <p className="text-cyber-muted text-[10px]">Current</p>
+                <p className={`font-bold ${item.current_price && item.target_price && item.current_price <= item.target_price ? "text-cyber-green" : "text-cyber-text"}`}>
+                  {formatPrice(item.current_price)}
+                </p>
+              </div>
+            )}
           </div>
 
-          {priceDiff !== null && (
+          {!isCompleted && priceDiff !== null && (
             <div className="flex items-center gap-1 text-[10px]">
               <div className="flex-1 h-1 bg-cyber-black rounded-full overflow-hidden">
                 <div
@@ -169,6 +207,12 @@ export default function ItemCard({ item, index, onDelete, onUpdate }: ItemCardPr
                 {priceDiff > 0 ? `+${priceDiff.toFixed(0)}%` : `${priceDiff.toFixed(0)}%`}
               </span>
             </div>
+          )}
+
+          {isCompleted && item.completed_at && (
+            <p className="text-[10px] text-cyber-green">
+              Исполнено {new Date(item.completed_at).toLocaleDateString()}
+            </p>
           )}
 
           <div className="flex items-center justify-between pt-1">

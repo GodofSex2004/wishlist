@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional, List
 from pydantic import BaseModel, EmailStr, Field
 
-from app.models.models import ItemCategory
+from app.models.models import ItemCategory, ItemStatus
 
 
 class UserCreate(BaseModel):
@@ -41,7 +41,7 @@ class WishlistItemCreate(BaseModel):
     brand: str = Field(default="", max_length=100)
     shop_url: Optional[str] = None
     target_price: float = Field(default=0.0, ge=0)
-    category: ItemCategory = ItemCategory.SAVE_UP
+    category: ItemCategory = ItemCategory.OTHER
     comment: Optional[str] = None
 
 
@@ -51,6 +51,7 @@ class WishlistItemUpdate(BaseModel):
     shop_url: Optional[str] = None
     target_price: Optional[float] = None
     category: Optional[ItemCategory] = None
+    status: Optional[ItemStatus] = None
     comment: Optional[str] = None
     current_price: Optional[float] = None
 
@@ -65,6 +66,8 @@ class WishlistItemOut(BaseModel):
     target_price: float
     current_price: Optional[float] = None
     category: ItemCategory
+    status: ItemStatus = ItemStatus.ACTIVE
+    completed_at: Optional[datetime] = None
     comment: Optional[str] = None
     created_at: datetime
 

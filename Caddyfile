@@ -1,11 +1,11 @@
 wishlistpizda.duckdns.org {
     encode gzip
 
-    handle_path /static/* {
+    handle /static/* {
         reverse_proxy backend:8000
     }
 
-    handle_path /api/* {
+    handle /api/* {
         reverse_proxy backend:8000
     }
 

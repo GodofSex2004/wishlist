@@ -1,7 +1,14 @@
 export enum ItemCategory {
-  BUY_NOW = "BUY_NOW",
-  SAVE_UP = "SAVE_UP",
-  FUTURE_DROP = "FUTURE_DROP",
+  TECH = "TECH",
+  BOOKS = "BOOKS",
+  CLOTHES = "CLOTHES",
+  TRAVEL = "TRAVEL",
+  OTHER = "OTHER",
+}
+
+export enum ItemStatus {
+  ACTIVE = "ACTIVE",
+  COMPLETED = "COMPLETED",
 }
 
 export interface WishlistItem {
@@ -14,6 +21,8 @@ export interface WishlistItem {
   target_price: number
   current_price: number | null
   category: ItemCategory
+  status: ItemStatus
+  completed_at: string | null
   comment: string | null
   created_at: string
 }
@@ -34,13 +43,17 @@ export interface PriceHistory {
 }
 
 export const categoryLabels: Record<ItemCategory, string> = {
-  [ItemCategory.BUY_NOW]: "Buy Now",
-  [ItemCategory.SAVE_UP]: "Save Up",
-  [ItemCategory.FUTURE_DROP]: "Future Drop",
+  [ItemCategory.TECH]: "Техника",
+  [ItemCategory.BOOKS]: "Книги",
+  [ItemCategory.CLOTHES]: "Одежда",
+  [ItemCategory.TRAVEL]: "Поездки",
+  [ItemCategory.OTHER]: "Прочее",
 }
 
 export const categoryColors: Record<ItemCategory, string> = {
-  [ItemCategory.BUY_NOW]: "bg-cyber-neon text-white border-cyber-neon",
-  [ItemCategory.SAVE_UP]: "bg-cyber-green text-black border-cyber-green",
-  [ItemCategory.FUTURE_DROP]: "bg-cyber-purple text-white border-cyber-purple",
+  [ItemCategory.TECH]: "bg-cyber-neon text-black border-cyber-neon",
+  [ItemCategory.BOOKS]: "bg-cyber-cyan text-black border-cyber-cyan",
+  [ItemCategory.CLOTHES]: "bg-cyber-purple text-white border-cyber-purple",
+  [ItemCategory.TRAVEL]: "bg-cyber-green text-black border-cyber-green",
+  [ItemCategory.OTHER]: "bg-cyber-muted text-white border-cyber-muted",
 }

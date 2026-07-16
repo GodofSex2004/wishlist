@@ -3,8 +3,8 @@ import "./globals.css"
 import TgWebApp from "@/components/TgWebApp"
 
 export const metadata: Metadata = {
-  title: "DROPWATCH — Wishlist Tracker",
-  description: "Streetwear wishlist & price tracker",
+  title: "WISHLIST — Wishlist Tracker",
+  description: "Personal wishlist & price tracker",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

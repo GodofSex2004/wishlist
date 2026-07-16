@@ -2,16 +2,23 @@ import enum
 from datetime import datetime, timezone
 from typing import Optional
 
-from sqlalchemy import String, Integer, Float, Text, Enum, DateTime, ForeignKey, UniqueConstraint
+from sqlalchemy import String, Integer, Float, Text, DateTime, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
 
 
 class ItemCategory(str, enum.Enum):
-    BUY_NOW = "BUY_NOW"
-    SAVE_UP = "SAVE_UP"
-    FUTURE_DROP = "FUTURE_DROP"
+    TECH = "TECH"
+    BOOKS = "BOOKS"
+    CLOTHES = "CLOTHES"
+    TRAVEL = "TRAVEL"
+    OTHER = "OTHER"
+
+
+class ItemStatus(str, enum.Enum):
+    ACTIVE = "ACTIVE"
+    COMPLETED = "COMPLETED"
 
 
 class User(Base):
@@ -43,8 +50,12 @@ class WishlistItem(Base):
     target_price: Mapped[float] = mapped_column(Float, default=0.0)
     current_price: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     category: Mapped[ItemCategory] = mapped_column(
-        Enum(ItemCategory, name="item_category"), default=ItemCategory.SAVE_UP
+        String(20), default=ItemCategory.OTHER
     )
+    status: Mapped[ItemStatus] = mapped_column(
+        String(20), default=ItemStatus.ACTIVE
+    )
+    completed_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
     comment: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
