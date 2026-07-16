@@ -3,8 +3,8 @@ import "./globals.css"
 import TgWebApp from "@/components/TgWebApp"
 
 export const metadata: Metadata = {
-  title: "WISHLIST — Wishlist Tracker",
-  description: "Personal wishlist & price tracker",
+  title: "WISHLIST — Personal Wishlist Tracker",
+  description: "Track your wishes, dreams and goals",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script src="https://telegram.org/js/telegram-web-app.js" async />
       </head>
-      <body className="min-h-screen">
+      <body className="min-h-screen bg-cyber-black">
         <TgWebApp />
         {children}
       </body>

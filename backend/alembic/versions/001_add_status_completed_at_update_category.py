@@ -26,6 +26,8 @@ def upgrade() -> None:
                     type_=sa.String(20),
                     postgresql_using="category::text")
 
+    op.execute("UPDATE wishlist_items SET category = 'OTHER' WHERE category NOT IN ('TECH','BOOKS','CLOTHES','TRAVEL','OTHER')")
+
     op.execute("DROP TYPE IF EXISTS item_category")
 
 

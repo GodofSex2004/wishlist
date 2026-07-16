@@ -7,7 +7,7 @@ import { getMe, getItems } from "@/lib/api"
 import { WishlistItem, ItemCategory, ItemStatus } from "@/types"
 import FilterBar from "@/components/FilterBar"
 import ItemCard from "@/components/ItemCard"
-import { ShoppingBag, ArrowLeft } from "lucide-react"
+import { ShoppingBag } from "lucide-react"
 
 export default function TgAppPage() {
   const router = useRouter()
@@ -42,7 +42,7 @@ export default function TgAppPage() {
 
   return (
     <div className="min-h-screen bg-cyber-black">
-      <div className="sticky top-0 z-50 bg-cyber-black/90 backdrop-blur-xl border-b border-cyber-light/30 px-4 py-3">
+      <div className="sticky top-0 z-50 bg-cyber-black/70 backdrop-blur-2xl border-b border-white/[0.06] px-4 py-3">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-display tracking-wider text-white">
             WISH<span className="text-cyber-neon">LIST</span>
@@ -57,7 +57,7 @@ export default function TgAppPage() {
         {loading ? (
           <div className="grid grid-cols-2 gap-3 mt-4">
             {[1,2,3,4].map((i) => (
-              <div key={i} className="aspect-[3/4] bg-cyber-dark rounded-xl animate-pulse border border-cyber-light" />
+              <div key={i} className="aspect-[3/4] rounded-2xl bg-cyber-dark/40 backdrop-blur-sm animate-pulse border border-white/[0.06]" />
             ))}
           </div>
         ) : items.length === 0 ? (
@@ -76,7 +76,8 @@ export default function TgAppPage() {
             {items.map((item, i) => (
               <ItemCard key={item.id} item={item} index={i}
                 onDelete={(id) => setItems((p) => p.filter((x) => x.id !== id))}
-                onUpdate={(id, data) => setItems((p) => p.map((x) => x.id === id ? { ...x, ...data } : x))} />
+                onUpdate={(id, data) => setItems((p) => p.map((x) => x.id === id ? { ...x, ...data } : x))}
+                onComplete={(id) => setItems((p) => p.filter((x) => x.id !== id))} />
             ))}
           </motion.div>
         )}

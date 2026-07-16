@@ -14,18 +14,18 @@ html {
 
 body {
   @apply bg-cyber-black text-cyber-text font-mono antialiased;
-  background-image: 
-    radial-gradient(ellipse at 20% 50%, rgba(255, 0, 68, 0.03) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 50%, rgba(179, 0, 255, 0.03) 0%, transparent 50%),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-image:
+    radial-gradient(ellipse at 15% 50%, rgba(179, 0, 255, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 85% 30%, rgba(255, 0, 68, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(0, 240, 255, 0.02) 0%, transparent 40%);
   background-attachment: fixed;
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 ::-webkit-scrollbar-track {
-  @apply bg-cyber-dark;
+  @apply bg-cyber-black;
 }
 ::-webkit-scrollbar-thumb {
   @apply bg-cyber-light rounded-full;
@@ -38,13 +38,34 @@ body {
   .text-gradient-neon {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-cyber-neon via-cyber-purple to-cyber-cyan;
   }
+  .text-gradient-cyan {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyber-cyan to-cyber-purple;
+  }
+  .glass {
+    @apply bg-cyber-dark/60 backdrop-blur-xl border border-white/[0.06] shadow-glass;
+  }
+  .glass-hover {
+    @apply hover:bg-cyber-dark/80 hover:border-white/[0.10] transition-all duration-300;
+  }
+  .glass-card {
+    @apply glass rounded-2xl;
+  }
+  .bento-tile {
+    @apply glass rounded-2xl p-5 transition-all duration-300 hover:border-white/[0.12];
+  }
+  .bento-tile-active {
+    @apply border-cyber-neon/40 bg-cyber-neon/5;
+  }
   .glow-border {
-    box-shadow: 0 0 10px rgba(255, 0, 68, 0.15), inset 0 0 10px rgba(255, 0, 68, 0.05);
+    box-shadow: 0 0 15px rgba(255, 0, 68, 0.12), inset 0 0 15px rgba(255, 0, 68, 0.04);
   }
   .glow-border-green {
-    box-shadow: 0 0 10px rgba(0, 255, 65, 0.15), inset 0 0 10px rgba(0, 255, 65, 0.05);
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.12), inset 0 0 15px rgba(0, 255, 65, 0.04);
   }
   .glow-border-purple {
-    box-shadow: 0 0 10px rgba(179, 0, 255, 0.15), inset 0 0 10px rgba(179, 0, 255, 0.05);
+    box-shadow: 0 0 15px rgba(179, 0, 255, 0.12), inset 0 0 15px rgba(179, 0, 255, 0.04);
+  }
+  .glow-border-cyan {
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.12), inset 0 0 15px rgba(0, 240, 255, 0.04);
   }
 }

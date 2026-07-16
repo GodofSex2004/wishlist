@@ -9,7 +9,7 @@ import FilterBar from "@/components/FilterBar"
 import ItemCard from "@/components/ItemCard"
 import AddItemModal from "@/components/AddItemModal"
 import { WishlistItem, ItemCategory, ItemStatus } from "@/types"
-import { Plus, Gift, Archive } from "lucide-react"
+import { Plus, Gift, Archive, Sparkles } from "lucide-react"
 
 export default function Dashboard() {
   const router = useRouter()
@@ -68,52 +68,52 @@ export default function Dashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex items-center justify-between mb-6"
+          className="flex items-center justify-between mb-8"
         >
           <div>
             <h1 className="text-4xl sm:text-5xl font-display tracking-wider text-white">
               WISH<span className="text-gradient-neon">LIST</span>
             </h1>
-            <p className="text-cyber-muted text-sm mt-1">
-              {items.length} {items.length === 1 ? "item" : "items"}
+            <p className="text-cyber-muted text-xs mt-1 tracking-wider uppercase">
+              {items.length} {items.length === 1 ? "item" : "items"} · {user.username}
             </p>
           </div>
           {activeTab === ItemStatus.ACTIVE && (
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => setShowAddModal(true)}
-              className="flex items-center gap-2 px-5 py-3 bg-cyber-neon text-black font-bold rounded-lg 
-                         hover:shadow-neon-lg transition-all duration-300"
+              className="flex items-center gap-2 px-5 py-2.5 bg-cyber-neon text-black font-bold rounded-xl 
+                         hover:shadow-neon-lg transition-all duration-300 text-sm"
             >
-              <Plus size={18} />
+              <Plus size={16} />
               <span className="hidden sm:inline">Add Item</span>
             </motion.button>
           )}
         </motion.div>
 
-        <div className="flex gap-4 mb-6 border-b border-cyber-light/30">
+        <div className="glass rounded-2xl p-1.5 mb-8 inline-flex">
           <button
             onClick={() => { setActiveTab(ItemStatus.ACTIVE); setActiveCategory(null) }}
-            className={`relative pb-3 flex items-center gap-2 text-sm font-bold transition-colors
-              ${activeTab === ItemStatus.ACTIVE ? "text-white" : "text-cyber-muted hover:text-white"}`}
+            className={`relative px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2
+              ${activeTab === ItemStatus.ACTIVE
+                ? "bg-cyber-neon text-black shadow-neon"
+                : "text-cyber-muted hover:text-white"
+              }`}
           >
-            <Gift size={16} />
+            <Gift size={14} />
             Желаю
-            {activeTab === ItemStatus.ACTIVE && (
-              <motion.div layoutId="tabIndicator" className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyber-neon" />
-            )}
           </button>
           <button
             onClick={() => { setActiveTab(ItemStatus.COMPLETED); setActiveCategory(null) }}
-            className={`relative pb-3 flex items-center gap-2 text-sm font-bold transition-colors
-              ${activeTab === ItemStatus.COMPLETED ? "text-white" : "text-cyber-muted hover:text-white"}`}
+            className={`relative px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2
+              ${activeTab === ItemStatus.COMPLETED
+                ? "bg-cyber-green text-black shadow-neon-green"
+                : "text-cyber-muted hover:text-white"
+              }`}
           >
-            <Archive size={16} />
+            <Archive size={14} />
             Выполнено
-            {activeTab === ItemStatus.COMPLETED && (
-              <motion.div layoutId="tabIndicator" className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyber-green" />
-            )}
           </button>
         </div>
 
@@ -122,11 +122,11 @@ export default function Dashboard() {
         )}
 
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {[...Array(4)].map((_, i) => (
               <div
                 key={i}
-                className="aspect-[3/4] bg-cyber-dark rounded-xl animate-pulse border border-cyber-light"
+                className="aspect-[3/4] rounded-2xl bg-cyber-dark/40 backdrop-blur-sm animate-pulse border border-white/[0.06]"
               />
             ))}
           </div>
@@ -134,25 +134,29 @@ export default function Dashboard() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col items-center justify-center mt-20 text-cyber-muted"
+            className="flex flex-col items-center justify-center mt-16 text-cyber-muted"
           >
             {activeTab === ItemStatus.ACTIVE ? (
               <>
-                <Gift size={64} className="mb-4 opacity-30" />
-                <p className="text-xl font-display tracking-wider text-white/40">
+                <div className="w-16 h-16 rounded-2xl bg-cyber-neon/10 border border-cyber-neon/20 flex items-center justify-center mb-4">
+                  <Sparkles size={28} className="text-cyber-neon/50" />
+                </div>
+                <p className="text-lg font-display tracking-wider text-white/40">
                   НИЧЕГО НЕ ЖЕЛАЮ
                 </p>
                 <button
                   onClick={() => setShowAddModal(true)}
-                  className="mt-4 text-cyber-neon hover:text-white transition-colors underline underline-offset-4"
+                  className="mt-4 text-sm text-cyber-neon hover:text-white transition-colors"
                 >
                   Добавить желание
                 </button>
               </>
             ) : (
               <>
-                <Archive size={64} className="mb-4 opacity-30" />
-                <p className="text-xl font-display tracking-wider text-white/40">
+                <div className="w-16 h-16 rounded-2xl bg-cyber-green/10 border border-cyber-green/20 flex items-center justify-center mb-4">
+                  <Archive size={28} className="text-cyber-green/50" />
+                </div>
+                <p className="text-lg font-display tracking-wider text-white/40">
                   ЕЩЁ НИЧЕГО НЕ ИСПОЛНИЛОСЬ
                 </p>
               </>
@@ -161,7 +165,7 @@ export default function Dashboard() {
         ) : (
           <motion.div
             layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
           >
             {items.map((item, i) => (
               <ItemCard

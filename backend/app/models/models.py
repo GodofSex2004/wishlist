@@ -29,6 +29,9 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
     is_admin: Mapped[bool] = mapped_column(default=False)
+    display_name: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    avatar_url: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+    is_private: Mapped[bool] = mapped_column(default=False)
     telegram_chat_id: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     telegram_link_code: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
 

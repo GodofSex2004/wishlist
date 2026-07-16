@@ -16,11 +16,19 @@ class UserLogin(BaseModel):
     password: str
 
 
+class UserUpdate(BaseModel):
+    display_name: Optional[str] = None
+    is_private: Optional[bool] = None
+
+
 class UserOut(BaseModel):
     id: int
     username: str
     email: str
     is_admin: bool = False
+    display_name: Optional[str] = None
+    avatar_url: Optional[str] = None
+    is_private: bool = False
     telegram_chat_id: Optional[str] = None
 
     class Config:

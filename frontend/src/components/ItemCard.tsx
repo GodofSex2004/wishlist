@@ -23,14 +23,6 @@ interface ItemCardProps {
   onComplete?: (id: number) => void
 }
 
-const categoryBorder: Record<string, string> = {
-  TECH: "hover:shadow-neon hover:border-cyber-neon",
-  BOOKS: "hover:border-cyber-cyan",
-  CLOTHES: "hover:shadow-purple hover:border-cyber-purple",
-  TRAVEL: "hover:shadow-green hover:border-cyber-green",
-  OTHER: "hover:border-cyber-muted",
-}
-
 export default function ItemCard({ item, index, onDelete, onUpdate, onComplete }: ItemCardProps) {
   const [showComment, setShowComment] = useState(false)
   const [showChart, setShowChart] = useState(false)
@@ -70,7 +62,6 @@ export default function ItemCard({ item, index, onDelete, onUpdate, onComplete }
     }
   }
 
-
   const handleCategoryCycle = async () => {
     const order = ["TECH", "BOOKS", "CLOTHES", "TRAVEL", "OTHER"] as const
     const idx = order.indexOf(item.category as any)
@@ -84,65 +75,66 @@ export default function ItemCard({ item, index, onDelete, onUpdate, onComplete }
   return (
     <>
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: index * 0.05 }}
+        transition={{ duration: 0.35, delay: index * 0.04 }}
         layout
-        className={`group relative bg-cyber-dark rounded-xl border overflow-hidden 
-                    transition-all duration-500 
-                    ${isCompleted ? "border-cyber-green/30 opacity-70 hover:opacity-90" : "border-cyber-light"}
-                    ${!isCompleted ? (categoryBorder[item.category] || "hover:border-cyber-light") : ""}`}
+        className={`group relative rounded-2xl overflow-hidden transition-all duration-500
+          ${isCompleted
+            ? "bg-cyber-dark/40 backdrop-blur-sm border border-cyber-green/20 opacity-70 hover:opacity-90"
+            : "bg-cyber-dark/60 backdrop-blur-sm border border-white/[0.06] hover:border-white/[0.12] hover:bg-cyber-dark/80 glass-hover shadow-glass"
+          }`}
       >
-        <div className="aspect-[4/5] overflow-hidden bg-cyber-black relative">
+        <div className="aspect-[4/5] overflow-hidden bg-cyber-black/60 relative">
           {item.image_url && !imgError ? (
             <img
               src={resolveImageUrl(item.image_url)}
               alt={item.title}
-              className={`w-full h-full object-cover transition-transform duration-700 ${isCompleted ? "grayscale" : "group-hover:scale-110"}`}
+              className={`w-full h-full object-cover transition-all duration-700 ${isCompleted ? "grayscale opacity-60" : "group-hover:scale-105"}`}
               onError={() => setImgError(true)}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-cyber-muted text-sm">
               <div className="text-center">
-                <Tag size={32} className="mx-auto mb-2 opacity-30" />
-                No image
+                <Tag size={28} className="mx-auto mb-2 opacity-20" />
+                <span className="opacity-30">No image</span>
               </div>
             </div>
           )}
 
           {isCompleted && (
-            <div className="absolute inset-0 bg-cyber-green/10 flex items-center justify-center">
-              <div className="bg-cyber-green text-black text-xs font-bold px-3 py-1 rounded-full rotate-[-15deg] shadow-lg">
+            <div className="absolute inset-0 bg-cyber-green/5 backdrop-blur-[2px] flex items-center justify-center">
+              <div className="bg-cyber-green/90 text-black text-[10px] font-bold px-3 py-1 rounded-full rotate-[-12deg] shadow-lg">
                 Выполнено ✓
               </div>
             </div>
           )}
 
-          <div className="absolute inset-0 bg-gradient-to-t from-cyber-dark via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-t from-cyber-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
           {!isCompleted && (
             <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <button
                 onClick={handleComplete}
                 disabled={completing}
-                className="p-1.5 rounded-lg bg-cyber-green/90 border border-cyber-green text-black 
-                           hover:bg-cyber-green transition-all text-xs disabled:opacity-50"
+                className="p-1.5 rounded-lg bg-cyber-green/20 backdrop-blur-sm border border-cyber-green/30 text-cyber-green 
+                           hover:bg-cyber-green/30 transition-all text-xs disabled:opacity-50"
                 title="Mark as completed"
               >
                 <Check size={12} />
               </button>
               <button
                 onClick={handleCategoryCycle}
-                className="p-1.5 rounded-lg bg-cyber-black/80 border border-cyber-light text-cyber-muted 
-                           hover:text-white hover:border-cyber-neon transition-all text-xs"
+                className="p-1.5 rounded-lg bg-cyber-black/40 backdrop-blur-sm border border-white/[0.08] text-cyber-muted 
+                           hover:text-white hover:border-white/[0.15] transition-all text-xs"
                 title="Change category"
               >
                 <Tag size={12} />
               </button>
               <button
                 onClick={() => setShowChart(!showChart)}
-                className="p-1.5 rounded-lg bg-cyber-black/80 border border-cyber-light text-cyber-muted 
-                           hover:text-white hover:border-cyber-cyan transition-all text-xs"
+                className="p-1.5 rounded-lg bg-cyber-black/40 backdrop-blur-sm border border-white/[0.08] text-cyber-muted 
+                           hover:text-white hover:border-cyber-cyan/50 transition-all text-xs"
                 title="Price history"
               >
                 <BarChart3 size={12} />
@@ -150,8 +142,8 @@ export default function ItemCard({ item, index, onDelete, onUpdate, onComplete }
               <button
                 onClick={handleDelete}
                 disabled={deleting}
-                className="p-1.5 rounded-lg bg-cyber-black/80 border border-cyber-light text-cyber-muted 
-                           hover:text-cyber-neon hover:border-cyber-neon transition-all text-xs disabled:opacity-50"
+                className="p-1.5 rounded-lg bg-cyber-black/40 backdrop-blur-sm border border-white/[0.08] text-cyber-muted 
+                           hover:text-cyber-neon hover:border-cyber-neon/50 transition-all text-xs disabled:opacity-50"
                 title="Delete item"
               >
                 <Trash2 size={12} />
@@ -160,33 +152,33 @@ export default function ItemCard({ item, index, onDelete, onUpdate, onComplete }
           )}
 
           <div className="absolute bottom-2 left-2">
-            <span className="text-[10px] px-2 py-0.5 rounded-full font-bold tracking-wider uppercase bg-cyber-black/80 text-cyber-muted border border-cyber-light">
+            <span className="text-[10px] px-2 py-0.5 rounded-full font-bold tracking-wider uppercase bg-cyber-black/60 backdrop-blur-sm text-cyber-muted border border-white/[0.06]">
               {categoryLabels[item.category]}
             </span>
           </div>
         </div>
 
-        <div className="p-3 space-y-2">
+        <div className="p-3.5 space-y-2.5">
           <div>
             {item.brand && (
-              <p className="text-[10px] uppercase tracking-widest text-cyber-muted font-bold">
+              <p className="text-[9px] uppercase tracking-[0.15em] text-cyber-muted font-bold">
                 {item.brand}
               </p>
             )}
-            <h3 className={`font-bold text-sm truncate ${isCompleted ? "text-cyber-muted line-through" : "text-white"}`}>
+            <h3 className={`font-bold text-sm truncate ${isCompleted ? "text-cyber-muted/60 line-through" : "text-white"}`}>
               {item.title}
             </h3>
           </div>
 
-          <div className="flex items-center justify-between text-xs">
+          <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <p className="text-cyber-muted text-[10px]">Target</p>
-              <p className={`font-bold ${isCompleted ? "text-cyber-muted" : "text-white"}`}>{formatPrice(item.target_price)}</p>
+              <p className="text-cyber-muted text-[9px] uppercase tracking-wider">Target</p>
+              <p className={`text-sm font-bold ${isCompleted ? "text-cyber-muted" : "text-white"}`}>{formatPrice(item.target_price)}</p>
             </div>
             {!isCompleted && (
               <div className="text-right space-y-0.5">
-                <p className="text-cyber-muted text-[10px]">Current</p>
-                <p className={`font-bold ${item.current_price && item.target_price && item.current_price <= item.target_price ? "text-cyber-green" : "text-cyber-text"}`}>
+                <p className="text-cyber-muted text-[9px] uppercase tracking-wider">Current</p>
+                <p className={`text-sm font-bold ${item.current_price && item.target_price && item.current_price <= item.target_price ? "text-cyber-green" : "text-cyber-text"}`}>
                   {formatPrice(item.current_price)}
                 </p>
               </div>
@@ -194,8 +186,8 @@ export default function ItemCard({ item, index, onDelete, onUpdate, onComplete }
           </div>
 
           {!isCompleted && priceDiff !== null && (
-            <div className="flex items-center gap-1 text-[10px]">
-              <div className="flex-1 h-1 bg-cyber-black rounded-full overflow-hidden">
+            <div className="flex items-center gap-1.5">
+              <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
                     priceDiff <= 0 ? "bg-cyber-green" : "bg-cyber-neon"
@@ -203,25 +195,25 @@ export default function ItemCard({ item, index, onDelete, onUpdate, onComplete }
                   style={{ width: `${Math.min(Math.abs(priceDiff), 100)}%` }}
                 />
               </div>
-              <span className={priceDiff <= 0 ? "text-cyber-green" : "text-cyber-muted"}>
+              <span className={`text-[10px] font-bold ${priceDiff <= 0 ? "text-cyber-green" : "text-cyber-muted"}`}>
                 {priceDiff > 0 ? `+${priceDiff.toFixed(0)}%` : `${priceDiff.toFixed(0)}%`}
               </span>
             </div>
           )}
 
           {isCompleted && item.completed_at && (
-            <p className="text-[10px] text-cyber-green">
+            <p className="text-[10px] text-cyber-green/70">
               Исполнено {new Date(item.completed_at).toLocaleDateString()}
             </p>
           )}
 
-          <div className="flex items-center justify-between pt-1">
+          <div className="flex items-center justify-between pt-0.5">
             {item.comment && (
               <button
                 onClick={() => setShowComment(!showComment)}
-                className="flex items-center gap-1 text-[10px] text-cyber-muted hover:text-cyber-cyan transition-colors"
+                className="flex items-center gap-1 text-[9px] text-cyber-muted hover:text-cyber-cyan transition-colors uppercase tracking-wider"
               >
-                <MessageSquare size={10} />
+                <MessageSquare size={9} />
                 Note
               </button>
             )}
@@ -230,9 +222,9 @@ export default function ItemCard({ item, index, onDelete, onUpdate, onComplete }
                 href={item.shop_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1 text-[10px] text-cyber-muted hover:text-cyber-neon transition-colors ml-auto"
+                className="flex items-center gap-1 text-[9px] text-cyber-muted hover:text-cyber-neon transition-colors ml-auto uppercase tracking-wider"
               >
-                <ExternalLink size={10} />
+                <ExternalLink size={9} />
                 Shop
               </a>
             )}
@@ -247,7 +239,7 @@ export default function ItemCard({ item, index, onDelete, onUpdate, onComplete }
                 transition={{ duration: 0.2 }}
                 className="overflow-hidden"
               >
-                <p className="text-[11px] text-cyber-muted bg-cyber-black rounded-lg p-2 border border-cyber-light">
+                <p className="text-[11px] text-cyber-muted bg-black/20 backdrop-blur-sm rounded-xl p-2.5 border border-white/[0.04]">
                   {item.comment}
                 </p>
               </motion.div>
@@ -262,23 +254,23 @@ export default function ItemCard({ item, index, onDelete, onUpdate, onComplete }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4"
             onClick={() => setShowChart(false)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              exit={{ scale: 0.92, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-cyber-dark border border-cyber-light rounded-2xl p-6 w-full max-w-lg"
+              className="bg-cyber-dark/80 backdrop-blur-2xl border border-white/[0.08] rounded-2xl p-6 w-full max-w-lg shadow-glass"
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-white">{item.title} — Price History</h3>
+                <h3 className="font-bold text-white text-sm">{item.title}</h3>
                 <button
                   onClick={() => setShowChart(false)}
-                  className="p-1 rounded-lg hover:bg-cyber-light transition-colors"
+                  className="p-1.5 rounded-lg hover:bg-white/5 transition-colors"
                 >
-                  <X size={16} />
+                  <X size={14} />
                 </button>
               </div>
               <PriceChart itemId={item.id} />

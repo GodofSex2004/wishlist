@@ -109,3 +109,17 @@ export async function adminGetItems(): Promise<WishlistItem[]> {
 export async function adminDeleteItem(id: number): Promise<void> {
   await api.delete(`/api/admin/items/${id}`)
 }
+
+export async function updateProfile(data: { display_name?: string | null; is_private?: boolean }): Promise<User> {
+  const res = await api.put("/api/auth/profile", data)
+  return res.data
+}
+
+export async function uploadAvatar(file: File): Promise<User> {
+  const formData = new FormData()
+  formData.append("file", file)
+  const res = await api.post("/api/auth/avatar", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  })
+  return res.data
+}

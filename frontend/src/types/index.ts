@@ -33,6 +33,9 @@ export interface User {
   email: string
   is_admin?: boolean
   telegram_chat_id: string | null
+  avatar_url: string | null
+  display_name: string | null
+  is_private: boolean
 }
 
 export interface PriceHistory {
